@@ -62,6 +62,12 @@ update_show_episode_date () {
   curl -X PUT -s "http://$HOST/library/sections/$1/all?id=$id&originallyAvailableAt.value=$date&originallyAvailableAt.locked=1&type=4&X-Plex-Token=$PLEX_TOKEN"
 }
 
+update_show_episode_poster () {
+  id=$(echo "$1" | cut -d '/' -f 4)
+  url=$(printf %s "$2" | jq -sRr @uri)
+  curl -X POST -s "http://$HOST/library/metadata/$id/posters?url=$url&X-Plex-Token=$PLEX_TOKEN"
+}
+
 lines_to_base64 () {
   while IFS= read -r line; do printf %s "$line" | base64; done < "$1"
 }
@@ -79,5 +85,5 @@ search_tvdb_series () {
 
 get_tvdb_episodes () {
   curl -s "https://api4.thetvdb.com/v4/series/$1/episodes/default/$2" --header "Authorization: Bearer $TVDB_LOGIN" | \
-    jq -r '.data.episodes | map([.seasonNumber, .number, (.name | @base64), (.aired | @base64), (.overview | @base64)] | join(" ")) | join("\n")'
+    jq -r '.data.episodes | map([.seasonNumber, .number, ("https://artworks.thetvdb.com" + .image), (.name // " " | @base64), (.aired // " " | @base64), (.overview  // " "| @base64)] | join(" ")) | join("\n")'
 }

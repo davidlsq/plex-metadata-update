@@ -12,10 +12,11 @@ plex_episodes () {
 }
 
 tvdb_episodes () {
-  get_tvdb_episodes 252322 fra | grep -v "^0" | cut -d ' ' -f 3-5
+  get_tvdb_episodes 252322 fra | grep -v "^0" | cut -d ' ' -f 3-6
 }
 
-paste <(plex_episodes) <(tvdb_episodes) | while read show_episode_key title date summary; do
+paste <(plex_episodes) <(tvdb_episodes) | while read show_episode_key poster title date summary; do
+  update_show_episode_poster $show_episode_key "$poster"
   update_show_episode_title $library_key $show_episode_key "$title"
   update_show_episode_date $library_key $show_episode_key "$date"
   update_show_episode_summary $library_key $show_episode_key "$summary"
