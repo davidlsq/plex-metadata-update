@@ -8,11 +8,11 @@ TVDB_LOGIN=$(get_tvdb_login $TVDB_TOKEN)
 library_key=$(get_library_key "TV")
 
 plex_episodes () {
-  get_show_episode_keys "TV" "Justice League" "All episodes"
+  get_show_episode_keys "TV" "Superman: The Animated Series" "All episodes"
 }
 
 tvdb_episodes () {
-  get_tvdb_episodes 76320 eng | grep -v "^0" | cut -d ' ' -f 3-6
+  get_tvdb_episodes 71788 eng | grep -v "^0" | cut -d ' ' -f 3-6
 }
 
 paste <(plex_episodes) <(tvdb_episodes) | while read show_episode_key poster title date summary; do
