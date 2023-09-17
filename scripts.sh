@@ -78,6 +78,6 @@ search_tvdb_series () {
 }
 
 get_tvdb_episodes () {
-  curl -s "https://api4.thetvdb.com/v4/series/$1/episodes/default" --header "Authorization: Bearer $TVDB_LOGIN" | \
+  curl -s "https://api4.thetvdb.com/v4/series/$1/episodes/default/$2" --header "Authorization: Bearer $TVDB_LOGIN" | \
     jq -r '.data.episodes | map([.seasonNumber, .number, (.name | @base64), (.aired | @base64), (.overview | @base64)] | join(" ")) | join("\n")'
 }

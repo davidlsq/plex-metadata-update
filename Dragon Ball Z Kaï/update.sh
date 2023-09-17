@@ -5,14 +5,14 @@ DIR=$(realpath "$(dirname "$0")")
 source "$DIR/../scripts.sh"
 
 TVDB_LOGIN=$(get_tvdb_login $TVDB_TOKEN)
-library_key=$(get_library_key "TV")
+library_key=$(get_library_key "Anime TV")
 
 plex_episodes () {
-  get_show_episode_keys "TV" "Kaamelott" "All episodes"
+  get_show_episode_keys "Anime TV" "Dragon Ball Z Kaï" "All episodes"
 }
 
 tvdb_episodes () {
-  get_tvdb_episodes 79175 fra | grep -v "^0" | cut -d ' ' -f 3-5
+  get_tvdb_episodes 88031 eng | grep -v "^0" | cut -d ' ' -f 3-5
 }
 
 paste <(plex_episodes) <(tvdb_episodes) | while read show_episode_key title date summary; do
